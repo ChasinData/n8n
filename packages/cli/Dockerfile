@@ -1,23 +1,18 @@
 FROM node:20
 
-# Create app directory
 WORKDIR /app
 
-# Install dependencies
 COPY . .
 
-RUN npm install -g pnpm lerna && \
-    pnpm install && \
+RUN npm install -g pnpm@8.15.4 lerna@6.6.2 && \
+    pnpm install --no-frozen-lockfile && \
     pnpm build
 
-# Set volume for persistent data
 VOLUME /home/node/.n8n
 
-# Set working directory
 WORKDIR /home/node
 
-# Set environment path (use your own if needed)
 ENV N8N_USER_FOLDER=/home/node/.n8n
 
-# Run n8n
 CMD ["pnpm", "start"]
+
